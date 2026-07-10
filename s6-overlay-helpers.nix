@@ -46,7 +46,7 @@ stdenv.mkDerivation rec {
 
     INCLUDE_ARGS="$INCLUDE_ARGS ${lib.optionalString (nsss != null) "--with-include=${nsss}/include" }"
     LIB_ARGS="$LIB_ARGS ${lib.optionalString (nsss != null)
-                                             "--with-lib=${nsss}/lib  --with-lib=${nsss}/lib"}"
+                                             "--with-lib=${nsss.lib}/lib --with-dynlib=${nsss.lib}/lib"}"
 
     ./configure \
       --disable-allstatic \
@@ -57,13 +57,6 @@ stdenv.mkDerivation rec {
       --enable-absolute-paths
 
     runHook postConfigure
-  '';
-
-
-  buildPhase = ''
-    runHook preBuild
-    make
-    runHook postBuild
   '';
 
   installPhase = ''
