@@ -10,17 +10,19 @@
 
   outputs = { self, nixpkgs }:
   let
-    s6-overlay = import ./s6-overlay.nix;
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in
   {
     packages.${system} = rec { 
-      default = s6-overlay { inherit pkgs; };
+      default = pkgs.callPackage ./s6-overlay.nix { inherit s6-overlay-noarch s6-overlay-helpers; };
 
-      s6-overlay-noarch = (import ./s6-overlay-noarch.nix) { inherit pkgs; };
+      s6-overlay-noarch = pkgs.callPackage ./s6-overlay-noarch.nix {};
+
+      s6-overlay-helpers = pkgs.callPackage ./s6-overlay-helpers.nix { nsss = null; };
 
       docker-image = pkgs.callPackage ./s6-overlay-image-test.nix { s6-overlay = default; };
+
     };
   };
 }

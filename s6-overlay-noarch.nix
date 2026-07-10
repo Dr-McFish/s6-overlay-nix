@@ -1,6 +1,9 @@
 # s6-overlay-noarch
 
-{ pkgs }: pkgs.stdenv.mkDerivation rec {
+{ lib
+, stdenv
+}:
+stdenv.mkDerivation rec {
 
   pname = "s6-overlay";
   version = "3.2.3.0";
@@ -17,7 +20,7 @@
   '';
 
   meta = {
-    license = pkgs.lib.licenses.isc;
+    license = lib.licenses.isc;
   };
 }
 
