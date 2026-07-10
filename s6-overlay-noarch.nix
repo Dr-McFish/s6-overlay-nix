@@ -4,9 +4,8 @@
 , stdenv
 }:
 stdenv.mkDerivation rec {
-
   pname = "s6-overlay";
-  version = "3.2.3.0";
+  version = import ./version.nix;
 
   src = fetchTarball {
     url = "https://github.com/just-containers/s6-overlay/releases/download/v${version}/s6-overlay-noarch.tar.xz";

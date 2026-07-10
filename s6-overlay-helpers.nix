@@ -45,7 +45,8 @@ stdenv.mkDerivation rec {
               --with-dynlib=${execline.lib}/lib --with-dynlib=${skalibs}/lib"
 
     INCLUDE_ARGS="$INCLUDE_ARGS ${lib.optionalString (nsss != null) "--with-include=${nsss}/include" }"
-    LIB_ARGS="$LIB_ARGS ${lib.optionalString (nsss != null) "--with-lib=${nsss}/lib"}"
+    LIB_ARGS="$LIB_ARGS ${lib.optionalString (nsss != null)
+                                             "--with-lib=${nsss}/lib  --with-lib=${nsss}/lib"}"
 
     ./configure \
       --disable-allstatic \

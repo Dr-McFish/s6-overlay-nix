@@ -1,6 +1,7 @@
 # s6-overlay.nix
 
-{ symlinkJoin
+{ lib
+, symlinkJoin
 , s6-overlay-noarch
 , s6-overlay-helpers
 , s6
@@ -10,7 +11,9 @@
 , execline  
 }:
 symlinkJoin {
-  name = "s6-overlay";
+  pname = "s6-overlay";
+  version = import ./version.nix;  
+
   paths = [
     s6
     s6-rc
@@ -20,5 +23,9 @@ symlinkJoin {
     s6-overlay-noarch
     s6-overlay-helpers
   ];
+
+  meta = {
+    license = lib.licenses.isc;
+  };
 }
 
