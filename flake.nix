@@ -15,10 +15,12 @@
     pkgs = nixpkgs.legacyPackages.${system};
   in
   {
-    packages.${system} = { 
+    packages.${system} = rec { 
       default = s6-overlay { inherit pkgs; };
 
       s6-overlay-noarch = (import ./s6-overlay-noarch.nix) { inherit pkgs; };
+
+      docker-image = pkgs.callPackage ./s6-overlay-image-test.nix { s6-overlay = default; };
     };
   };
 }
