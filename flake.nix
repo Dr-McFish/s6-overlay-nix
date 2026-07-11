@@ -21,7 +21,10 @@
 
       s6-overlay-helpers = pkgs.callPackage ./s6-overlay-helpers.nix { nsss = null; };
 
-      docker-image = pkgs.callPackage ./s6-overlay-image-test.nix { s6-overlay = default; };
+      docker-image = pkgs.callPackage ./s6-overlay-image-test.nix {
+        s6-overlay = default;
+        inherit s6-overlay-helpers;
+      };
 
     };
   };
