@@ -1,8 +1,9 @@
-{ dockerTools
-, buildEnv
-, s6-overlay
-, s6-overlay-helpers
-} :
+{
+  dockerTools,
+  buildEnv,
+  s6-overlay,
+  s6-overlay-helpers,
+}:
 dockerTools.buildImage {
   name = "s6-overlay-image";
   tag = "latest";
@@ -12,7 +13,16 @@ dockerTools.buildImage {
     paths = [
       s6-overlay
     ];
-    pathsToLink = [ "/bin" "/sbin" "/command" "/etc" "/lib" "/libexec" "/package" "/" ];
+    pathsToLink = [
+      "/bin"
+      "/sbin"
+      "/command"
+      "/etc"
+      "/lib"
+      "/libexec"
+      "/package"
+      "/"
+    ];
   };
   config = {
     Entrypoint = [ "/init" ];
@@ -34,4 +44,3 @@ dockerTools.buildImage {
     chown 0:0 ./command/s6-overlay-suexec
   '';
 }
-

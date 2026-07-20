@@ -1,8 +1,9 @@
-{ dockerTools
-, buildEnv
-, s6-overlay
-, s6-overlay-helpers
-} :
+{
+  dockerTools,
+  buildEnv,
+  s6-overlay,
+  s6-overlay-helpers,
+}:
 dockerTools.buildLayeredImage {
   name = "s6-overlay-image";
   tag = "latest";
@@ -28,4 +29,3 @@ dockerTools.buildLayeredImage {
     chown 0:0 ./command/s6-overlay-suexec
   '';
 }
-

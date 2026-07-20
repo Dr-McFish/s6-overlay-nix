@@ -8,28 +8,31 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }:
-  let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-  in
-  {
-    packages.${system} = rec { 
-      default = pkgs.callPackage ./s6-overlay.nix { inherit s6-overlay-noarch s6-overlay-helpers; };
+  outputs =
+    { self, nixpkgs }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+    {
+      formatter.${system} = pkgs.nixfmt-tree;
 
-      s6-overlay-noarch = pkgs.callPackage ./s6-overlay-noarch.nix {};
+      packages.${system} = rec {
+        default = pkgs.callPackage ./s6-overlay.nix { inherit s6-overlay-noarch s6-overlay-helpers; };
 
-      s6-overlay-helpers = pkgs.callPackage ./s6-overlay-helpers.nix { nsss = null; };
+        s6-overlay-noarch = pkgs.callPackage ./s6-overlay-noarch.nix { };
 
-      dockerImage = pkgs.callPackage ./basic_image.nix {
-        s6-overlay = default;
-        inherit s6-overlay-helpers;
-      };
+        s6-overlay-helpers = pkgs.callPackage ./s6-overlay-helpers.nix { nsss = null; };
 
-      dockerLayeredImage = pkgs.callPackage ./basic_layered_image.nix {
-        s6-overlay = default;
-        inherit s6-overlay-helpers;
+        dockerImage = pkgs.callPackage ./basic_image.nix {
+          s6-overlay = default;
+          inherit s6-overlay-helpers;
+        };
+
+        dockerLayeredImage = pkgs.callPackage ./basic_layered_image.nix {
+          s6-overlay = default;
+          inherit s6-overlay-helpers;
+        };
       };
     };
-  };
 }

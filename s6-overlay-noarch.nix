@@ -1,8 +1,9 @@
 # s6-overlay-noarch
 
-{ lib
-, stdenv
-, fetchFromGitHub 
+{
+  lib,
+  stdenv,
+  fetchFromGitHub,
 }:
 stdenv.mkDerivation rec {
   pname = "s6-overlay";
@@ -32,4 +33,3 @@ stdenv.mkDerivation rec {
     license = lib.licenses.isc;
   };
 }
-

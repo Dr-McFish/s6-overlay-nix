@@ -1,11 +1,15 @@
-{ lib
-, stdenv
-, execline
-, skalibs
-, fetchFromGitHub ? null
-, nsss ? null
+{
+  lib,
+  stdenv,
+  execline,
+  skalibs,
+  fetchFromGitHub ? null,
+  nsss ? null,
 }:
-let pkg-config = null; in #TODO remove pkg-config, it does not seem very useful in a nix context
+let
+  pkg-config = null;
+in
+# TODO remove pkg-config, it does not seem very useful in a nix context
 
 stdenv.mkDerivation rec {
   pname = "s6-overlay-helpers";
@@ -27,14 +31,14 @@ stdenv.mkDerivation rec {
   buildInputs = [
     skalibs
     execline.lib
-  ] ++ lib.optional (nsss != null) nsss;
+  ]
+  ++ lib.optional (nsss != null) nsss;
 
   # Because of security reasons, it is not possible to have setuid binaries
   # in nix store, therefore we have to modify the script
   postPatch = ''
     sed -i 's/^s6-overlay-suexec\t04755/s6-overlay-suexec\t0755/' package/modes
   '';
-
 
   configurePhase = ''
     runHook preConfigure
@@ -44,9 +48,10 @@ stdenv.mkDerivation rec {
     LIB_ARGS="--with-lib=${execline.lib}/lib --with-lib=${skalibs}/lib \
               --with-dynlib=${execline.lib}/lib --with-dynlib=${skalibs}/lib"
 
-    INCLUDE_ARGS="$INCLUDE_ARGS ${lib.optionalString (nsss != null) "--with-include=${nsss}/include" }"
-    LIB_ARGS="$LIB_ARGS ${lib.optionalString (nsss != null)
-                                             "--with-lib=${nsss.lib}/lib --with-dynlib=${nsss.lib}/lib"}"
+    INCLUDE_ARGS="$INCLUDE_ARGS ${lib.optionalString (nsss != null) "--with-include=${nsss}/include"}"
+    LIB_ARGS="$LIB_ARGS ${
+      lib.optionalString (nsss != null) "--with-lib=${nsss.lib}/lib --with-dynlib=${nsss.lib}/lib"
+    }"
 
     ./configure \
       --disable-allstatic \
@@ -75,7 +80,6 @@ stdenv.mkDerivation rec {
     homepage = "https://skarnet.org/";
     license = licenses.isc;
     platforms = platforms.all;
-    maintainers = [];
+    maintainers = [ ];
   };
 }
-
