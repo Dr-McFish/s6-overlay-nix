@@ -24,8 +24,7 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     runHook preInstall
-    mkdir -p $out
-    cp output/s6-overlay-noarch.tar.xz $out/
+    cp -r output/rootfs-overlay-noarch/. $out
     runHook postInstall
   '';
 

@@ -1,3 +1,4 @@
+# An example of how to use the s6-overlay package
 {
   dockerTools,
   buildEnv,
