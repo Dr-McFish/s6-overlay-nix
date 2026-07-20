@@ -28,7 +28,7 @@ symlinkJoin {
   meta = {
     description = "s6 overlay for containers (includes execline, s6-linux-utils & a custom init)";
     homepage = "https://github.com/just-containers/s6-overlay/";
-    platforms = lib.platforms.all;
+    platforms = lib.platforms.linux;
     maintainers = [ ];
     license = lib.licenses.isc;
   };
