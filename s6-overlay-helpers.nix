@@ -6,9 +6,9 @@
   fetchFromGitHub,
   nsss ? null,
 }:
-let
-  pkg-config = null;
-in
+#let
+#  pkg-config = null;
+#in
 # TODO remove pkg-config, it does not seem very useful in a nix context
 
 stdenv.mkDerivation rec {
@@ -22,11 +22,11 @@ stdenv.mkDerivation rec {
     hash = "sha256-aZd+U8cPwQ0bn9FuhTvlomtEnsi6wkSSUb34B9qcww8=";
   };
 
-  nativeBuildInputs = [
+  #nativeBuildInputs = [
     # If upstream uses pkg-config for optional .pc features, keep this available:
-    pkg-config
+#:    pkg-config
     execline.dev
-  ];
+  #];
 
   buildInputs = [
     skalibs
