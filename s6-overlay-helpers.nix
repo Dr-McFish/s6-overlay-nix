@@ -3,7 +3,7 @@
   stdenv,
   execline,
   skalibs,
-  fetchFromGitHub ? null,
+  fetchFromGitHub,
   nsss ? null,
 }:
 let
@@ -75,11 +75,11 @@ stdenv.mkDerivation rec {
 
   dontStrip = false;
 
-  meta = with lib; {
+  meta = {
     description = "Helpers for s6-overlay";
-    homepage = "https://skarnet.org/";
-    license = licenses.isc;
-    platforms = platforms.all;
+    homepage = "https://github.com/just-containers/s6-overlay-helpers/";
+    license = lib.licenses.isc;
+    platforms = lib.platforms.all;
     maintainers = [ ];
   };
 }
