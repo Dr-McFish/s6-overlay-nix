@@ -18,11 +18,14 @@
       formatter.${system} = pkgs.nixfmt-tree;
 
       packages.${system} = rec {
-        default = pkgs.callPackage ./s6-overlay.nix { inherit s6-overlay-noarch s6-overlay-helpers; withNsss=true };
+        default = pkgs.callPackage ./s6-overlay.nix {
+          inherit s6-overlay-noarch;
+          s6-overlay-helpers = s6-overlay-helpers.override { withNsss = true; };
+        };
 
         s6-overlay-noarch = pkgs.callPackage ./s6-overlay-noarch.nix { };
 
-        s6-overlay-helpers = pkgs.callPackage ./s6-overlay-helpers.nix { nsss = null; };
+        s6-overlay-helpers = pkgs.callPackage ./s6-overlay-helpers.nix { };
 
         dockerImage = pkgs.callPackage ./basic_image.nix {
           s6-overlay = default;
