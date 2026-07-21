@@ -18,7 +18,7 @@
       formatter.${system} = pkgs.nixfmt-tree;
 
       packages.${system} = rec {
-        default = pkgs.callPackage ./s6-overlay.nix { inherit s6-overlay-noarch s6-overlay-helpers; };
+        default = pkgs.callPackage ./s6-overlay.nix { inherit s6-overlay-noarch s6-overlay-helpers; withNsss=true };
 
         s6-overlay-noarch = pkgs.callPackage ./s6-overlay-noarch.nix { };
 

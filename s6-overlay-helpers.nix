@@ -4,12 +4,9 @@
   execline,
   skalibs,
   fetchFromGitHub,
-  nsss ? null,
+  nsss,
+  withNsss ? false
 }:
-#let
-#  pkg-config = null;
-#in
-# TODO remove pkg-config, it does not seem very useful in a nix context
 
 stdenv.mkDerivation rec {
   pname = "s6-overlay-helpers";
@@ -25,14 +22,14 @@ stdenv.mkDerivation rec {
   #nativeBuildInputs = [
     # If upstream uses pkg-config for optional .pc features, keep this available:
 #:    pkg-config
-    execline.dev
+#    execline.dev
   #];
 
   buildInputs = [
     skalibs
     execline.lib
   ]
-  ++ lib.optional (nsss != null) nsss;
+  ++ lib.optional (withNsss) nsss;
 
   # Because of security reasons, it is not possible to have setuid binaries
   # in nix store, therefore we have to modify the script
