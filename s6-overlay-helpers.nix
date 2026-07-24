@@ -19,6 +19,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-aZd+U8cPwQ0bn9FuhTvlomtEnsi6wkSSUb34B9qcww8=";
   };
 
+  strictDeps = true;
   #nativeBuildInputs = [
     # If upstream uses pkg-config for optional .pc features, keep this available:
 #:    pkg-config
