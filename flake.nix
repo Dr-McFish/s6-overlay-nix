@@ -19,12 +19,13 @@
 
       packages.${system} = rec {
         default = pkgs.callPackage ./s6-overlay.nix {
-          inherit s6-overlay-noarch s6-overlay-helpers;
+          inherit s6-overlay-noarch;
+          s6-overlay-helpers = s6-overlay-helpers.override { withNsss = true; };
         };
 
         s6-overlay-noarch = pkgs.callPackage ./s6-overlay-noarch.nix { };
 
-        s6-overlay-helpers = pkgs.callPackage ./s6-overlay-helpers.nix { withNsss=false; };
+        s6-overlay-helpers = pkgs.callPackage ./s6-overlay-helpers.nix { };
 
         dockerImage = pkgs.callPackage ./basic_image.nix {
           s6-overlay = default;
