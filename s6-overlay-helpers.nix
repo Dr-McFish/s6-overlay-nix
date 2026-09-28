@@ -4,6 +4,7 @@
   execline,
   skalibs,
   fetchFromGitHub,
+  pkg-config,
   nsss,
   withNsss ? false,
 }:
@@ -25,22 +26,22 @@ stdenv.mkDerivation rec {
     sed -i 's/^s6-overlay-suexec\t04755/s6-overlay-suexec\t0755/' package/modes
   '';
 
+  nativeBuildInputs = [ pkg-config ];
+  buildInputs = [
+    execline
+    skalibs
+  ]
+  ++ lib.optional withNsss nsss;
+
   configureFlags = [
     "--disable-allstatic"
     "--with-sysdeps=${skalibs}/lib/skalibs/sysdeps"
-    "--with-include=${skalibs.dev}/include"
-    "--with-include=${execline.dev}/include"
-    "--with-lib=${skalibs.lib}/lib"
-    "--with-lib=${execline.lib}/lib"
-    "--with-dynlib=${skalibs.lib}/lib"
-    "--with-dynlib=${execline.lib}/lib"
+    "--with-pkgconfig=pkg-config"
+    "--enable-pkgconfig"
     "--enable-absolute-paths"
   ]
   ++ lib.optionals withNsss [
     "--enable-nsss"
-    "--with-include=${nsss.dev}/include"
-    "--with-lib=${nsss.lib}/lib"
-    "--with-dynlib=${nsss.lib}/lib"
   ];
 
   meta = {
